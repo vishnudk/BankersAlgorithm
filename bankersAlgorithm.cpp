@@ -8,7 +8,7 @@
 #include <bits/stdc++.h> 
 int noOfProc,noOfReso=0;
 using namespace std;
-int compareProcessAndAvailableResourcess(int **procR,int *rem){
+int compareProcessAndAvailableResourcess(int **procR,int *rem,int **comProcR){
 	list <int> :: iterator it; 
 	list<int> procList; 
 	list<int> allProc;
@@ -32,7 +32,9 @@ int compareProcessAndAvailableResourcess(int **procR,int *rem){
 					procList.push_back(i);
 					for(int k=0;k<noOfReso;k++)
 					{
-						rem[k]=rem[k]+procR[i][k];
+						if(rem[k]<0)
+						rem[k]=rem[k]*-1;
+						rem[k]=rem[k]+comProcR[i][k];
 						//procR[i][k]=-1;
 					}
 				}
@@ -52,6 +54,7 @@ int compareProcessAndAvailableResourcess(int **procR,int *rem){
 	}
 	if(noOfProc==procList.size())
     {
+	cout<<"Safe sequence :"<<endl;
 	for ( it = procList.begin(); it != procList.end(); ++it) 
         cout << ' ' << *it;
     cout<<endl;    
@@ -175,7 +178,7 @@ int main()
     procR=procRemain(proc,aloc);
     cout<<"No of resources required for each process to complete :"<<endl;
     disp(procR);
-    int val=compareProcessAndAvailableResourcess(procR,t);
+    int val=compareProcessAndAvailableResourcess(procR,t,aloc);
     if(val==-1)
     cout<<"dead lock"<<endl;
     	return 0;
